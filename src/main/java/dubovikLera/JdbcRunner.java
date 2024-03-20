@@ -1,7 +1,6 @@
 package dubovikLera;
 
-import dubovikLera.dao.FlightDao;
-import dubovikLera.dao.TicketDao;
+import dubovikLera.dao.*;
 import dubovikLera.dto.TicketFilter;
 import dubovikLera.entity.Ticket;
 import dubovikLera.utils.ConnectionManager;
@@ -60,8 +59,17 @@ public class JdbcRunner {
         ticketDao.updateFlightAndTicket(2L, LocalDate.of(2025, 4, 10).atStartOfDay(),
                 LocalDate.of(2025, 9, 2).atStartOfDay(), 2L
                 );
+        var seatDao = SeatDao.getInstance();
+        System.out.println(seatDao.findById(2L));
         System.out.println("--------------------------------");
 
+        var aircraftDao = AircraftDao.getInstance();
+        System.out.println(aircraftDao.findById(1L));
+
+
+        System.out.println("--------------------------------");
+        var airportDao = AirportDao.getInstance();
+        System.out.println(airportDao.findAll());
     }
 
 
