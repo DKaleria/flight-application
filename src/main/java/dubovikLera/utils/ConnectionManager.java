@@ -31,8 +31,7 @@ public final class ConnectionManager {
     private static void initConnectionPool() {
         String poolSize = PropertiesUtil.get(POOL_SIZE_KEY);
         int size = poolSize == null ? DEFAULT_POOL_SIZE : Integer.parseInt(poolSize);
-        pool = new ArrayBlockingQueue(size);
-
+        pool = new ArrayBlockingQueue<>(size);
 
         for (int i = 0; i < size; i++) {
             Connection connection = open();
@@ -42,9 +41,7 @@ public final class ConnectionManager {
                             pool.add((Connection) proxy) :
                             method.invoke(connection, args));
             pool.add(proxyConnection);
-
         }
-
     }
 
     public static Connection get() {
@@ -57,16 +54,15 @@ public final class ConnectionManager {
 
     private static Connection open() {
         try {
-            return DriverManager.getConnection(
-                    PropertiesUtil.get(URL_KEY),
-                    PropertiesUtil.get(USERNAME_KEY),
-                    PropertiesUtil.get(PASSWORD_KEY));
+            String url = PropertiesUtil.get(URL_KEY);
+            String username = PropertiesUtil.get(USERNAME_KEY);
+            String password = PropertiesUtil.get(PASSWORD_KEY);
+            return DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private ConnectionManager() {
-
     }
 }
